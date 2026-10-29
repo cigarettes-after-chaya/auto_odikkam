@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#101815">
+  <title>Auto Driver — Kerala</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@700;800&display=swap">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="loading-screen" class="screen">
+    <div class="loading-brand">
+      <div class="brand-mark">🛺</div>
+      <p class="eyebrow">KERALA • INDIA</p>
+      <h1>AUTO<span> DRIVER</span></h1>
+      <p class="tagline">One town. A thousand rides.</p>
+      <div class="loading-track"><div id="loading-fill"></div></div>
+      <p id="loading-status">Warming up the engine…</p>
+    </div>
+    <div class="loading-bottom">A small-town driving experience</div>
+  </div>
+
+  <main id="menu-screen" class="screen hidden">
+    <div class="menu-top"><span class="mini-mark">🛺</span><span>KERALA DRIVE</span><span class="menu-pill">BROWSER EDITION</span></div>
+    <div class="menu-content">
+      <p class="eyebrow">YOUR SHIFT STARTS HERE</p>
+      <h1>Take the<br><em>scenic route.</em></h1>
+      <p class="menu-copy">A yellow Kerala auto, open roads, and customers waiting to get somewhere.</p>
+      <div class="mode-grid">
+        <button class="mode-card selected" data-mode="missions" type="button">
+          <span class="mode-icon">◉</span>
+          <span class="mode-title">Passenger missions</span>
+          <span class="mode-desc">Pick up a passenger, follow the route and earn your fare.</span>
+          <span class="mode-foot">PLAY WITH A PURPOSE <b>↗</b></span>
+        </button>
+        <button class="mode-card" data-mode="free" type="button">
+          <span class="mode-icon">↗</span>
+          <span class="mode-title">Free roam</span>
+          <span class="mode-desc">No timer, no pressure. Explore the town at your own pace.</span>
+          <span class="mode-foot">THE TOWN IS YOURS <b>↗</b></span>
+        </button>
+      </div>
+      <div class="menu-actions">
+        <button id="start-button" class="primary-button" type="button">START YOUR ENGINE <span>→</span></button>
+        <p>WASD / ARROWS drive · SPACE drift · drag to look around · N next song · C camera</p>
+      </div>
+    </div>
+    <div class="menu-footer"><span>01 / KOLLAM DISTRICT</span><span>Built for the open road</span></div>
+    <div class="developer-credit">Made by Jijin</div>
+  </main>
+
+  <div id="game-ui" class="hidden">
+    <div class="hud-top">
+      <div class="hud-brand"><span>🛺</span><div><strong>AUTO DRIVER</strong><small id="mode-label">PASSENGER MISSION</small></div></div>
+      <div class="hud-stats"><div><small>FARE WALLET</small><strong>₹<span id="money">0</span></strong></div><div><small>SPEED</small><strong><span id="speed">0</span><i> km/h</i></strong></div></div>
+      <div class="hud-actions">
+        <button id="prev-song" class="icon-button" type="button" aria-label="Previous song" title="Previous song"><svg viewBox="0 0 24 24"><path d="M6 6h2.2v12H6zM20 6v12L9.5 12z"/></svg></button>
+        <button id="music-button" class="fullscreen-button music-button" type="button" aria-label="Mute music" title="Mute / unmute music">♫</button>
+        <button id="next-song" class="icon-button" type="button" aria-label="Next song" title="Skip to next song"><svg viewBox="0 0 24 24"><path d="M15.8 6H18v12h-2.2zM4 6l10.5 6L4 18z"/></svg></button>
+        <button id="camera-button" class="icon-button" type="button" aria-label="Change camera" title="Change camera (C)"><svg viewBox="0 0 24 24"><path d="M9 4l-1.8 2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3.2L15 4zm3 4.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/></svg></button>
+        <button id="fullscreen-button" class="fullscreen-button" type="button" aria-label="Enter full screen">⛶</button>
+        <button id="pause-button" class="pause-button" aria-label="Pause">Ⅱ</button>
+      </div>
+    </div>
+    <canvas id="minimap" class="minimap" width="264" height="264" aria-label="Minimap"></canvas>
+    <div id="now-playing" class="now-playing"></div>
+    <div class="mission-panel" id="mission-panel">
+      <div class="mission-label"><span class="live-dot"></span><span id="mission-phase">NEXT PICKUP</span></div>
+      <strong id="mission-title">Find your passenger</strong>
+      <p id="mission-subtitle">Follow the yellow route marker.</p>
+      <div class="mission-progress"><span id="mission-progress"></span></div>
+    </div>
+    <div id="toast" class="toast">Welcome, driver!</div>
+    <div class="bottom-hint" id="bottom-hint">W / ↑ ACCELERATE <span>•</span> S / ↓ BRAKE & REVERSE <span>•</span> A D / ← → STEER <span>•</span> SPACE DRIFT <span>•</span> DRAG = LOOK AROUND <span>•</span> N SKIP SONG <span>•</span> C CAMERA</div>
+    <div class="hud-credit">Made by Jijin</div>
+    <div class="mobile-controls" id="mobile-controls">
+      <div class="steering-controls">
+        <div class="steer-pad" id="steer-pad" aria-label="Steering slider"><div class="steer-line"></div><div class="steer-thumb" id="steer-thumb"></div><span class="steer-hint">&#9664; STEER &#9654;</span></div>
+      </div>
+      <div class="pedal-controls">
+        <button class="control-button drift-btn" data-control="drift" aria-label="Drift">DRIFT</button>
+        <button class="control-button brake" data-control="brake">BRAKE<br><small>REVERSE</small></button>
+        <button class="control-button accelerate" data-control="accelerate">GO <span>&#9650;</span></button>
+      </div>
+    </div>
+
+  <div id="pause-screen" class="overlay hidden">
+    <div class="pause-card">
+      <p class="eyebrow">TAKE A BREATHER</p><h2>Ride paused.</h2>
+      <p>Your auto isn't going anywhere.</p>
+      <button id="resume-button" class="primary-button">BACK TO THE ROAD →</button>
+      <button id="menu-button" class="secondary-button">BACK TO MAIN MENU</button>
+    </div>
+  </div>
+
+  <div id="message" class="message hidden" role="status"></div>
+  <div id="rotate-overlay" class="rotate-overlay hidden"><div class="rotate-card"><div class="rotate-icon">↻</div><strong>Rotate your phone</strong><p>Turn your phone sideways for the best driving experience.</p><button id="continue-portrait" type="button">Continue anyway</button></div></div>
+  <div id="error-panel" class="error-panel hidden"></div>
+
+  <script>
+    // Independent watchdog: reports when the game module never starts.
+    window.setTimeout(function () {
+      if (!window.__autoDriverBooted && !window.__autoDriverEngineFailed) {
+        var loading = document.getElementById('loading-screen');
+        var menu = document.getElementById('menu-screen');
+        var status = document.getElementById('loading-status');
+        var fill = document.getElementById('loading-fill');
+        var panel = document.getElementById('error-panel');
+        if (loading) loading.classList.add('hidden');
+        if (menu) menu.classList.remove('hidden');
+        if (status) status.textContent = 'Game script did not start';
+        if (fill) fill.style.width = '100%';
+        if (panel) {
+          panel.classList.remove('hidden');
+          panel.textContent = 'The game script did not finish starting. Check that src/main.js exists in GitHub and try Chrome or another network. If the 3D engine is blocked, refresh after switching networks.';
+        }
+      }
+    }, 15000);
+  </script>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
