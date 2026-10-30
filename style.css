@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+:root{--ink:#101815;--cream:#f2f0e8;--yellow:#ffd43b;--green:#173d2d;--muted:#a5afa6;--line:rgba(255,255,255,.15)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#a9b9a1;color:var(--cream);font-family:Manrope,system-ui,sans-serif}button{font:inherit;cursor:pointer}#game-canvas{position:fixed;inset:0;width:100%;height:100%;display:block;outline:none}
+.screen{position:fixed;inset:0;z-index:10;background:radial-gradient(ellipse at 72% 28%,rgba(75,111,72,.25),transparent 38%),linear-gradient(125deg,#0d1713 0%,#17271d 62%,#29392a 100%);padding:clamp(22px,5vw,64px);display:flex;flex-direction:column;justify-content:space-between}.hidden{display:none!important}
+#loading-screen{align-items:center;justify-content:center;text-align:center;background:linear-gradient(145deg,#111b16,#203326)}.loading-brand{width:min(420px,90vw)}.brand-mark{font-size:clamp(56px,9vw,90px);filter:drop-shadow(0 10px 20px #0005);margin-bottom:10px}.eyebrow{font:500 10px 'DM Mono',monospace;letter-spacing:.23em;color:#d9c55b;margin:0 0 18px}.loading-brand h1{font-size:clamp(35px,7vw,58px);letter-spacing:-.08em;line-height:.9;margin:0;font-weight:800}.loading-brand h1 span{color:var(--yellow)}.tagline{color:#c0c9be;font-size:14px;margin:17px 0 38px}.loading-track{height:3px;background:#ffffff20;border-radius:5px;overflow:hidden}.loading-track div{height:100%;width:0;background:var(--yellow);transition:width .3s}.loading-brand #loading-status{font:11px 'DM Mono',monospace;color:#aeb9ad;margin-top:13px}.loading-bottom{position:absolute;bottom:24px;font:10px 'DM Mono',monospace;color:#829083;letter-spacing:.12em}
+.menu-top,.menu-footer{display:flex;align-items:center;justify-content:space-between;font:10px 'DM Mono',monospace;letter-spacing:.12em;color:#b5c0b4}.mini-mark{font-size:25px;margin-right:10px}.menu-top{justify-content:flex-start;gap:10px}.menu-pill{margin-left:auto;border:1px solid #ffffff28;border-radius:20px;padding:8px 11px;font-size:9px}.menu-content{width:min(800px,100%);margin:auto 0}.menu-content h1{font-size:clamp(48px,9vw,96px);letter-spacing:-.085em;line-height:.88;margin:0;font-weight:800}.menu-content h1 em{font-style:normal;color:var(--yellow)}.menu-copy{max-width:430px;color:#b5c0b4;font-size:14px;line-height:1.7;margin:24px 0 28px}.mode-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:700px}.mode-card{text-align:left;background:#ffffff08;border:1px solid #ffffff26;color:var(--cream);border-radius:13px;padding:20px;min-height:190px;display:flex;flex-direction:column;transition:.2s}.mode-card.selected{background:#ffd43b12;border-color:var(--yellow);box-shadow:inset 0 0 0 1px #ffd43b35}.mode-icon{color:var(--yellow);font-size:25px;margin-bottom:17px}.mode-title{font-size:15px;font-weight:800;margin-bottom:9px}.mode-desc{color:#b7c1b6;font-size:12px;line-height:1.6;max-width:250px}.mode-foot{display:flex;justify-content:space-between;margin-top:auto;padding-top:20px;font:9px 'DM Mono',monospace;letter-spacing:.08em;color:#aeb8ac}.mode-foot b{color:var(--yellow);font-size:15px}.menu-actions{margin-top:25px}.primary-button{background:var(--yellow);border:0;color:#182018;border-radius:7px;padding:16px 20px;font-weight:800;font-size:11px;letter-spacing:.09em;display:flex;align-items:center;justify-content:space-between;gap:35px;min-width:245px}.primary-button span{font-size:20px}.menu-actions p{font:9px 'DM Mono',monospace;color:#839083;letter-spacing:.04em;margin-top:14px}.menu-footer{font-size:9px}
+#game-ui{position:fixed;inset:0;z-index:3;pointer-events:none}.hud-top{position:absolute;top:0;left:0;right:0;padding:20px 24px;display:flex;align-items:center;gap:18px;background:linear-gradient(#101815c9,transparent);pointer-events:none}.hud-brand{display:flex;align-items:center;gap:9px}.hud-brand>span{font-size:29px}.hud-brand strong{display:block;font-size:11px;letter-spacing:.06em}.hud-brand small,.hud-stats small{display:block;color:#b8c2b7;font:9px 'DM Mono',monospace;letter-spacing:.1em;margin-top:4px}.hud-stats{margin-left:auto;display:flex;gap:23px}.hud-stats strong{font-size:20px}.hud-stats i{font-size:9px;font-style:normal;color:#b8c2b7}.pause-button{pointer-events:auto;border:1px solid #ffffff50;background:#10181588;color:white;width:42px;height:42px;border-radius:50%;font-size:18px}
+.mission-panel{position:absolute;left:24px;top:104px;width:min(310px,calc(100vw - 48px));padding:15px 17px;background:#101815d9;border:1px solid #ffffff20;border-radius:10px;backdrop-filter:blur(10px)}.mission-label{display:flex;align-items:center;gap:7px;color:var(--yellow);font:9px 'DM Mono',monospace;letter-spacing:.12em}.live-dot{width:6px;height:6px;background:var(--yellow);border-radius:50%;box-shadow:0 0 10px var(--yellow)}.mission-panel>strong{display:block;font-size:16px;margin-top:11px}.mission-panel p{font-size:11px;color:#b7c2b8;line-height:1.5;margin:6px 0 12px}.mission-progress{height:3px;background:#ffffff20;border-radius:5px;overflow:hidden}.mission-progress span{display:block;height:100%;width:20%;background:var(--yellow);transition:width .3s}.toast{position:absolute;top:32%;left:50%;transform:translate(-50%,-50%);background:#101815e8;border:1px solid #ffd43b88;color:#fff5c5;border-radius:30px;padding:12px 18px;font-size:12px;white-space:nowrap;opacity:0;transition:opacity .3s}.toast.visible{opacity:1}.bottom-hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);white-space:nowrap;border:1px solid #ffffff22;background:#101815a8;border-radius:30px;padding:11px 16px;font:9px 'DM Mono',monospace;letter-spacing:.07em;color:#e1e7dd}.bottom-hint span{color:var(--yellow);margin:0 7px}
+.mobile-controls{display:none;position:absolute;bottom:20px;left:18px;right:18px;justify-content:space-between;align-items:end;pointer-events:auto;touch-action:none}.steering-controls,.pedal-controls{display:flex;gap:10px;align-items:end}.control-button{color:white;border:1px solid #ffffff55;background:#101815b8;backdrop-filter:blur(6px);box-shadow:0 5px 18px #0003;touch-action:none;user-select:none;-webkit-user-select:none}.steering{width:60px;height:60px;border-radius:50%;font-size:28px}.pedal-controls{align-items:stretch}.brake{border-radius:12px;padding:9px 12px;font-size:10px;font-weight:800}.brake small{font-size:8px;color:#b9c3b8}.accelerate{width:77px;height:77px;border-radius:50%;background:#ffd43be8;color:#172016;font-weight:900;font-size:13px}.accelerate span{display:block;font-size:17px}.control-button.active{filter:brightness(1.35);transform:scale(.96)}
+.overlay{position:fixed;inset:0;z-index:20;background:#0c1511bb;backdrop-filter:blur(12px);display:grid;place-items:center;padding:20px}.pause-card{width:min(390px,100%);background:#17231b;border:1px solid #ffffff20;border-radius:16px;padding:30px}.pause-card h2{font-size:36px;letter-spacing:-.06em;margin:0}.pause-card>p:not(.eyebrow){color:#b5c0b4;font-size:13px;margin-bottom:26px}.pause-card .primary-button{width:100%;justify-content:center}.secondary-button{width:100%;margin-top:10px;padding:13px;background:transparent;border:1px solid #ffffff2b;color:#e3e9df;border-radius:7px;font-size:10px;font-weight:700;letter-spacing:.08em}.message{position:fixed;z-index:30;left:50%;top:50%;transform:translate(-50%,-50%);background:#142018;color:white;padding:16px 20px;border:1px solid #ffd43b;border-radius:12px;max-width:90vw;text-align:center}.error-panel{position:fixed;z-index:99;inset:auto 12px 12px;background:#321b1b;color:#fff;padding:16px;border-radius:10px;font:12px monospace;white-space:pre-wrap}
+@media(max-width:650px){.screen{padding:22px}.menu-content h1{font-size:clamp(53px,14vw,76px)}.menu-copy{font-size:12px;margin:17px 0 20px}.mode-grid{gap:8px}.mode-card{padding:13px;min-height:178px}.mode-icon{font-size:21px;margin-bottom:12px}.mode-title{font-size:12px}.mode-desc{font-size:10px}.mode-foot{font-size:7px;letter-spacing:0}.menu-actions{margin-top:18px}.primary-button{min-width:0;width:100%;padding:15px}.menu-actions p{font-size:8px;line-height:1.5}.menu-footer{font-size:8px}.hud-top{padding:13px;gap:10px}.hud-brand>span{font-size:24px}.hud-brand strong{font-size:9px}.hud-brand small{font-size:7px}.hud-stats{gap:11px}.hud-stats small{font-size:7px}.hud-stats strong{font-size:16px}.pause-button{width:35px;height:35px}.mission-panel{top:81px;left:12px;padding:12px;width:min(260px,calc(100vw - 24px))}.mission-panel>strong{font-size:14px}.mission-panel p{font-size:10px;margin-bottom:8px}.mobile-controls{display:flex}.bottom-hint{display:none}.menu-top{font-size:9px}.menu-pill{font-size:7px;padding:7px}.loading-bottom{font-size:8px}}
+@media(hover:none) and (pointer:coarse){.mobile-controls{display:flex}}
+
+#error-panel {
+  position: fixed;
+  z-index: 1000;
+  left: 5%;
+  right: 5%;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  max-height: 38vh;
+  overflow: auto;
+  white-space: pre-wrap;
+  padding: 14px 16px;
+  border: 1px solid rgba(255,204,51,.65);
+  border-radius: 12px;
+  background: rgba(20, 22, 18, .96);
+  color: #fff3c4;
+  font: 13px/1.5 system-ui, sans-serif;
+}
+
+
+/* Full-screen / landscape gameplay support */
+html, body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  overscroll-behavior: none;
+}
+body.game-active {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#game-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 0;
+  touch-action: none;
+}
+#game-ui { position: fixed; inset: 0; z-index: 5; pointer-events: none; }
+#game-ui button, #game-ui .mission-panel, #game-ui .mobile-controls,
+#game-ui .hud-top, #game-ui .bottom-hint { pointer-events: auto; }
+.hud-actions { display:flex; align-items:center; gap:8px; }
+.fullscreen-button {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1px solid #ffffff30; color: #fff4cf;
+  background: #17231bd9; font-size: 22px; line-height: 1;
+}
+.developer-credit {
+  position: absolute; bottom: max(14px, env(safe-area-inset-bottom));
+  left: 0; right: 0; text-align: center;
+  font-size: 14px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase;
+  background: linear-gradient(90deg, #ffb300, #ffe27a 45%, #ffc107 70%, #ff9f1a);
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.85)) drop-shadow(0 0 8px rgba(255,190,40,.45));
+  pointer-events: none;
+}
+.rotate-overlay {
+  position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center;
+  padding: 24px; background: rgba(8,13,10,.94); color: #f5f4e9;
+}
+.rotate-overlay.hidden { display:none; }
+.rotate-card { width:min(330px,100%); text-align:center; border:1px solid #ffffff20;
+  border-radius:20px; padding:28px 22px; background:#17231b; }
+.rotate-card strong { display:block; font-size:22px; margin:8px 0; }
+.rotate-card p { color:#c0c9bc; font-size:13px; line-height:1.5; }
+.rotate-icon { font-size:48px; color:#ffd43b; }
+.rotate-card button { margin-top:10px; border:1px solid #ffffff30; border-radius:9px;
+  padding:12px 16px; background:#26372a; color:#fff; }
+@media (orientation: portrait) and (max-width: 900px) {
+  body.game-active #rotate-overlay:not(.hidden) { display:grid; }
+}
+@media (orientation: landscape) {
+  .developer-credit { bottom: max(8px, env(safe-area-inset-bottom)); }
+}
+@media (max-width: 900px) and (orientation: landscape) {
+  .hud-top { padding-top: max(8px, env(safe-area-inset-top)); }
+  .mobile-controls { padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+}
+
+/* Music toggle in the gameplay HUD */
+.music-button { font-size: 20px; }
+.hud-actions { flex-shrink: 0; }
+@media (max-width: 650px) {
+  .hud-actions { gap: 5px; }
+  .music-button, .fullscreen-button { width: 34px; height: 34px; }
+}
+
+/* ---- v2: credit in HUD, music skip, camera button, minimap, now-playing --------------------- */
+.hud-credit {
+  position: absolute; left: 50%; bottom: max(6px, env(safe-area-inset-bottom)); transform: translateX(-50%);
+  font-size: 10px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; white-space: nowrap;
+  color: #ffd23f; text-shadow: 0 1px 2px rgba(0,0,0,.9), 0 0 8px rgba(255,190,40,.5); opacity: .92; pointer-events: none;
+}
+.bottom-hint { bottom: 30px; }
+.hud-actions .icon-button {
+  pointer-events: auto; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; padding: 0;
+  border: 1px solid #ffffff50; background: #10181588; color: #fff;
+}
+.hud-actions .icon-button svg { width: 18px; height: 18px; fill: currentColor; }
+.hud-actions .icon-button:active { filter: brightness(1.4); transform: scale(.94); }
+.music-button.muted { opacity: .5; text-decoration: line-through; }
+.now-playing {
+  position: absolute; top: 70px; left: 50%; transform: translateX(-50%); padding: 7px 14px; border-radius: 30px;
+  background: #101815d9; border: 1px solid #ffd43b66; color: #fff1a8; font: 11px 'DM Mono', monospace; letter-spacing: .08em;
+  opacity: 0; transition: opacity .35s; pointer-events: none; white-space: nowrap;
+}
+.now-playing.visible { opacity: 1; }
+.minimap {
+  position: absolute; right: 14px; top: 78px; width: 132px; height: 132px; border-radius: 50%;
+  border: 2px solid #ffffff66; background: #1b2a20; box-shadow: 0 4px 18px #0006; pointer-events: none;
+}
+@media (max-width: 900px) {
+  .minimap { width: 104px; height: 104px; top: 64px; right: 10px; }
+  .hud-actions .icon-button { width: 34px; height: 34px; }
+  .hud-actions .icon-button svg { width: 15px; height: 15px; }
+  .hud-actions { gap: 5px; }
+  .hud-brand small { display: none; }
+  .now-playing { top: 56px; font-size: 9px; }
+  .steering { width: 68px; height: 68px; }
+  .accelerate { width: 88px; height: 88px; }
+  .brake { padding: 13px 14px; }
+}
+html, body { overscroll-behavior: none; touch-action: none; -webkit-user-select: none; user-select: none; }
+.hidden { display: none !important; }
+
+
+/* ---- v3: steering slider, drift button, free-look ------------------------------------------- */
+#game-canvas { touch-action: none; }
+.steer-pad {
+  position: relative; width: clamp(130px, 34vw, 250px); height: 74px; border-radius: 40px; touch-action: none; user-select: none; -webkit-user-select: none;
+  background: #101815b8; border: 1px solid #ffffff55; backdrop-filter: blur(6px); box-shadow: 0 5px 18px #0003; pointer-events: auto;
+}
+.steer-line { position: absolute; left: 14%; right: 14%; top: 50%; height: 2px; background: #ffffff33; transform: translateY(-50%); }
+.steer-thumb {
+  position: absolute; left: 50%; top: 50%; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%;
+  background: #ffd43be8; box-shadow: 0 2px 10px #0006; transition: transform .12s ease-out; will-change: transform;
+}
+.steer-pad.active .steer-thumb { transition: none; }
+.steer-hint { position: absolute; left: 0; right: 0; bottom: 4px; text-align: center; font-size: 8px; font-weight: 800; letter-spacing: .12em; color: #ffffff88; pointer-events: none; }
+.drift-btn { width: 58px; height: 58px; border-radius: 50%; font-size: 10px; font-weight: 900; letter-spacing: .04em; background: #e5393599; align-self: end; pointer-events: auto; }
+.pedal-controls .control-button { pointer-events: auto; }
+
+/* v4 compact driving HUD, less intrusive mission card, and settings panel */
+.mission-panel {
+  left: 16px; top: 82px; width: min(252px, calc(100vw - 32px));
+  padding: 10px 12px; border-radius: 9px; background: rgba(13, 22, 17, .82);
+}
+.mission-panel > strong { font-size: 13px; line-height: 1.3; margin-top: 6px; }
+.mission-panel p { font-size: 10px; line-height: 1.35; margin: 4px 0 8px; }
+.mission-label { font-size: 8px; }
+.mission-progress { height: 2px; }
+.bottom-hint { display: none !important; }
+.minimap { width: 112px; height: 112px; top: 70px; right: 14px; opacity: .92; }
+.settings-card { max-height: min(86vh, 720px); overflow-y: auto; }
+.settings-card h2 { margin-bottom: 16px; }
+.settings-list { display: grid; gap: 0; border-top: 1px solid #ffffff20; }
+.settings-list p { display: flex; gap: 14px; justify-content: space-between; align-items: baseline; margin: 0; padding: 10px 0; border-bottom: 1px solid #ffffff15; font-size: 12px; }
+.settings-list b { color: #fff4c6; }
+.settings-list span { color: #b8c2b7; text-align: right; font-size: 11px; }
+.settings-note { color: #b8c2b7; font-size: 11px; line-height: 1.5; margin: 16px 0; }
+.settings-card .primary-button { width: 100%; justify-content: center; }
+.steer-pad { width: clamp(118px, 27vw, 190px); height: 64px; }
+.steer-thumb { width: 46px; height: 46px; margin: -23px 0 0 -23px; }
+.accelerate { width: 70px; height: 70px; }
+.brake { padding: 8px 10px; }
+.drift-btn { width: 48px; height: 48px; }
+@media (max-width: 900px) {
+  .mission-panel { top: 67px; left: 10px; width: min(205px, calc(100vw - 130px)); padding: 8px 10px; }
+  .mission-panel > strong { font-size: 12px; }
+  .mission-panel p { display: none; }
+  .mission-progress { margin-top: 7px; }
+  .minimap { width: 88px; height: 88px; top: 58px; right: 8px; }
+  .mobile-controls { left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); }
+  .steer-pad { width: clamp(112px, 25vw, 170px); height: 58px; }
+  .steer-thumb { width: 42px; height: 42px; margin: -21px 0 0 -21px; }
+  .accelerate { width: 64px; height: 64px; }
+  .brake { padding: 7px 8px; font-size: 9px; }
+  .drift-btn { width: 44px; height: 44px; font-size: 8px; }
+}
+@media (max-width: 420px) {
+  .hud-brand { gap: 5px; }
+  .hud-brand > span { font-size: 20px; }
+  .hud-stats { gap: 8px; }
+  .hud-stats strong { font-size: 14px; }
+  .hud-actions { gap: 3px; }
+  .hud-actions .icon-button, .music-button, .fullscreen-button { width: 30px; height: 30px; }
+  .pause-button { width: 30px; height: 30px; }
+  .mission-panel { width: min(185px, calc(100vw - 110px)); }
+  .pedal-controls { gap: 6px; }
+}
+
+/* v5: compact one-line mission card, roomier thumb-first mobile controls, calmer minimap */
+.mission-panel { left: 12px; top: 64px; width: auto; max-width: min(268px, calc(100vw - 150px)); padding: 6px 10px 7px; border-radius: 8px; display: grid; grid-template-columns: 1fr auto; column-gap: 8px; align-items: baseline; }
+.mission-panel .mission-label { grid-column: 1 / -1; font-size: 7px; letter-spacing: .16em; margin: 0 0 1px; }
+.mission-panel > strong { font-size: 12px; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mission-panel > em { font-style: normal; font-size: 11px; font-weight: 900; color: #ffd43b; font-variant-numeric: tabular-nums; }
+.mission-panel p { display: none; }
+.mission-progress { grid-column: 1 / -1; margin-top: 5px; height: 2px; }
+.minimap { width: 96px; height: 96px; top: 62px; right: 10px; opacity: .9; border: 2px solid #ffffff55; box-shadow: 0 2px 10px #0006; }
+.mobile-controls, .control-button, .steer-pad { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; touch-action: none; }
+.mobile-controls { left: max(14px, env(safe-area-inset-left)); right: max(14px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); align-items: flex-end; }
+.pedal-controls { display: flex; align-items: flex-end; gap: 10px; }
+.steer-pad { width: clamp(150px, 30vw, 240px); height: 80px; border-radius: 40px; background: #0f1a1499; border: 1px solid #ffffff30; }
+.steer-thumb { width: 60px; height: 60px; margin: -30px 0 0 -30px; background: #ffd43bcc; border: 2px solid #fff8; box-shadow: 0 3px 10px #0007; }
+.accelerate { width: 92px; height: 92px; border-radius: 50%; font-size: 15px; font-weight: 900; background: #2e9e5bcc; border: 2px solid #ffffff55; }
+.brake { width: 74px; height: 74px; border-radius: 50%; padding: 0; font-size: 10px; font-weight: 900; background: #c62828cc; border: 2px solid #ffffff44; }
+.drift-btn { width: 52px; height: 52px; margin-right: 2px; }
+.control-button.active { transform: scale(.94); filter: brightness(1.25); }
+@media (max-width: 900px) and (hover: none) { .accelerate { width: 84px; height: 84px; } .brake { width: 66px; height: 66px; } .steer-pad { width: clamp(140px, 28vw, 210px); height: 72px; } .steer-thumb { width: 54px; height: 54px; margin: -27px 0 0 -27px; } }
+@media (max-width: 420px) { .mission-panel { max-width: calc(100vw - 130px); } .minimap { width: 84px; height: 84px; } }
